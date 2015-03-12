@@ -1,3 +1,2 @@
 # study
-Repository of different study project
-something new
+here will be some study projects
