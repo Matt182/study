@@ -1,0 +1,36 @@
+#code string to new string by Caesar code
+def encryptor(key, message):
+	res = ''
+	if key > 25:
+		key = key % 26
+	elif key < 0:
+		key = key % -26
+	print key
+	for i in message:
+		if (ord(i) == 32):
+			res += i
+		else:
+		  # checks if letter in uppercase
+			if (ord(i) > 64 and ord(i) < 91):
+				temp = ord(i) + key
+				if temp > 90:
+					z = temp - 90
+					temp = 40 + z
+				elif temp < 65:
+					z = 65 - temp
+					temp = 91 - z
+				res += chr(temp)
+			#checks if letter in lowcase
+			elif(ord(i) > 96 and ord(i) < 123):
+				temp = ord(i) + key
+				if temp > 122:
+					z = temp - 122
+					temp = 96 + z
+				elif temp < 97:
+					z = 97 - temp
+					temp = 123 - z
+				res += chr(temp)
+			#if it is not a letter
+			else:
+				res += i
+	return res
