@@ -3,14 +3,12 @@
 import simplegui
 import random
 
-turns = 99
 # helper function to initialize globals
 def new_game():
-    global nums,state,exposed,turns,counter
+    global nums,state,exposed,turns
     nums = []
     state = 0
     turns = 0
-    counter = 0
     for x in range(8):
         nums.append(x)
     nums.extend(nums)
