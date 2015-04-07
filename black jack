@@ -51,11 +51,11 @@ class Card:
 # define hand class
 class Hand:
     def __init__(self):
-        self.cards = []
+        self.hand = []
 
     def __str__(self):
         res = []
-        for i in self.cards:
+        for i in self.hand:
             res.append(str(i.suit) + str(i.rank))
         return "hand contains" + str(res)
 
@@ -72,17 +72,22 @@ class Hand:
 # define deck class 
 class Deck:
     def __init__(self):
-        pass	# create a Deck object
+        self.deck = []
+        for i in SUITS:
+            for j in RANKS:
+                self.deck.append(Card(i,j))
 
     def shuffle(self):
-        # shuffle the deck 
-        pass    # use random.shuffle()
+        random.shuffle(self.deck)
 
     def deal_card(self):
         pass	# deal a card object from the deck
     
     def __str__(self):
-        pass	# return a string representing the deck
+        res = []
+        for i in self.deck:
+            res.append(str(i.suit) + str(i.rank))
+        return "hand contains" + str(res)
 
 
 
