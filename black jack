@@ -60,11 +60,20 @@ class Hand:
         return "hand contains" + str(res)
 
     def add_card(self, card):
-        self.cards.append(card)
+        self.hand.append(card)
 
     def get_value(self):
+        value = 0
+        count = 0
         # count aces as 1, if the hand has an ace, then add 10 to hand value if it doesn't bust
-        pass	# compute the value of the hand, see Blackjack video
+        for i in self.hand:
+            if i.rank == 'A':
+                count += 1
+            value += VALUES[i.rank]
+        if count > 0:
+            value += 10
+        return value
+        # compute the value of the hand, see Blackjack video
    
     def draw(self, canvas, pos):
         pass
@@ -73,30 +82,37 @@ class Hand:
 class Deck:
     def __init__(self):
         self.deck = []
-        for i in SUITS:
-            for j in RANKS:
-                self.deck.append(Card(i,j))
+        for s in SUITS:
+            for r in RANKS:
+                self.deck.append(Card(s,r))
 
     def shuffle(self):
         random.shuffle(self.deck)
 
     def deal_card(self):
-        pass	# deal a card object from the deck
+        return self.deck.pop(0)
     
     def __str__(self):
-        res = []
+        print "deck cont"
         for i in self.deck:
-            res.append(str(i.suit) + str(i.rank))
-        return "hand contains" + str(res)
+            return i.rank + i.suit
 
 
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play
+    global outcome, in_play,deck,hand,dealer
 
     # your code goes here
-    
+    deck = Deck()
+    deck.shuffle()
+    hand = Hand()
+    dealer = Hand()
+    hand.add_card(deck.deal_card())
+    hand.add_card(deck.deal_card())
+    print deck
+    print hand
+    print hand.get_value()
     in_play = True
 
 def hit():
