@@ -105,16 +105,18 @@ class Deck:
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play, deck,hand, dealer
+    global outcome, in_play, deck,hand, dealer,score
 
     # your code goes here
     outcome = "New deal! Hit or Stand?"
+    if in_play:
+        outcome = "deal in the middle of round, score -1"
+        score -= 1
     deck = Deck()
     deck.shuffle()
     hand = Hand()
     dealer = Hand()
     dealer.add_card(deck.deal_card())
-    hand.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
     print dealer
     print hand
