@@ -108,23 +108,53 @@ def deal():
     deck.shuffle()
     hand = Hand()
     dealer = Hand()
+    dealer.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
-    print deck
+    print dealer
     print hand
+    print dealer.get_value()
     print hand.get_value()
     in_play = True
 
 def hit():
-    pass	# replace with your code below
- 
+    global score,outcome,hand,deck,dealer
+    # replace with your code below
+    hand.add_card(deck.deal_card())
     # if the hand is in play, hit the player
-   
+    if hand.get_value() > 21:
+        outcome = "dealer wins tie"
+        in_play = False
+        score -= 1
+    print dealer.get_value()
+    print hand.get_value()
+    print outcome
+    return
     # if busted, assign a message to outcome, update in_play and score
        
 def stand():
-    pass	# replace with your code below
-   
+    # replace with your code below
+    global score,outcome,hand,deck,dealer
+    
+    if in_play == False:
+        print outcome
+        return
+    while dealer.get_value() < 17:
+        dealer.add_card(deck.deal_card())
+    if dealer.get_value() > 21:
+        score += 1
+        outcome = "dealer busts!"
+    elif dealer.get_value() >= hand.get_value():
+        score -= 1
+        outcome = "dealer wins tie"
+    else:
+        score += 1
+        outcome = "you win"
+    print dealer
+    print hand
+    print dealer.get_value()
+    print hand.get_value()
+    print outcome
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
 
     # assign a message to outcome, update in_play and score
