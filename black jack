@@ -76,7 +76,11 @@ class Hand:
         # compute the value of the hand, see Blackjack video
    
     def draw(self, canvas, pos):
-        pass
+        for i in self.hand:
+            card_loc = (CARD_CENTER[0] + CARD_SIZE[0] * RANKS.index(i.rank), 
+                        CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(i.suit))
+            canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0] + CARD_SIZE[0]*self.hand.index(i), pos[1] + CARD_CENTER[1]], CARD_SIZE)
+        
         
 # define deck class 
 class Deck:
@@ -163,9 +167,8 @@ def stand():
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
     
-    card = Card("S", "A")
-    card.draw(canvas, [300, 300])
-
+    dealer.draw(canvas,[100,200])
+    hand.draw(canvas, [100,400])
 
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
