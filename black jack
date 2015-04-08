@@ -76,7 +76,11 @@ class Hand:
         # compute the value of the hand, see Blackjack video
    
     def draw(self, canvas, pos):
-        pass
+        for i in self.hand:
+            card_loc = (CARD_CENTER[0] + CARD_SIZE[0] * RANKS.index(i.rank), 
+                        CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(i.suit))
+            canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0] + CARD_SIZE[0]*self.hand.index(i), pos[1] + CARD_CENTER[1]], CARD_SIZE)
+        
         
 # define deck class 
 class Deck:
@@ -108,23 +112,53 @@ def deal():
     deck.shuffle()
     hand = Hand()
     dealer = Hand()
+    dealer.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
-    print deck
+    print dealer
     print hand
+    print dealer.get_value()
     print hand.get_value()
     in_play = True
 
 def hit():
-    pass	# replace with your code below
- 
+    global score,outcome,hand,deck,dealer
+    # replace with your code below
+    hand.add_card(deck.deal_card())
     # if the hand is in play, hit the player
-   
+    if hand.get_value() > 21:
+        outcome = "dealer wins tie"
+        in_play = False
+        score -= 1
+    print dealer.get_value()
+    print hand.get_value()
+    print outcome
+    return
     # if busted, assign a message to outcome, update in_play and score
        
 def stand():
-    pass	# replace with your code below
-   
+    # replace with your code below
+    global score,outcome,hand,deck,dealer
+    
+    if in_play == False:
+        print outcome
+        return
+    while dealer.get_value() < 17:
+        dealer.add_card(deck.deal_card())
+    if dealer.get_value() > 21:
+        score += 1
+        outcome = "dealer busts!"
+    elif dealer.get_value() >= hand.get_value():
+        score -= 1
+        outcome = "dealer wins tie"
+    else:
+        score += 1
+        outcome = "you win"
+    print dealer
+    print hand
+    print dealer.get_value()
+    print hand.get_value()
+    print outcome
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
 
     # assign a message to outcome, update in_play and score
@@ -133,9 +167,8 @@ def stand():
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
     
-    card = Card("S", "A")
-    card.draw(canvas, [300, 300])
-
+    dealer.draw(canvas,[100,200])
+    hand.draw(canvas, [100,400])
 
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
