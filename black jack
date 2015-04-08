@@ -14,7 +14,7 @@ card_back = simplegui.load_image("http://storage.googleapis.com/codeskulptor-ass
 
 # initialize some useful global variables
 in_play = False
-outcome = ""
+outcome = "New deal!"
 score = 0
 
 # define globals for cards
@@ -105,15 +105,18 @@ class Deck:
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play,deck,hand,dealer
+    global outcome, in_play, deck,hand, dealer,score
 
     # your code goes here
+    outcome = "New deal! Hit or Stand?"
+    if in_play:
+        outcome = "deal in the middle of round, score -1"
+        score -= 1
     deck = Deck()
     deck.shuffle()
     hand = Hand()
     dealer = Hand()
     dealer.add_card(deck.deal_card())
-    hand.add_card(deck.deal_card())
     hand.add_card(deck.deal_card())
     print dealer
     print hand
@@ -122,12 +125,15 @@ def deal():
     in_play = True
 
 def hit():
-    global score,outcome,hand,deck,dealer
+    global score,outcome,hand,deck,dealer,in_play
     # replace with your code below
+    if in_play == False:
+        return
+    outcome = "you Hit! Hit or Stand?"
     hand.add_card(deck.deal_card())
     # if the hand is in play, hit the player
     if hand.get_value() > 21:
-        outcome = "dealer wins tie"
+        outcome = "Dealer wins tie, New deal?"
         in_play = False
         score -= 1
     print dealer.get_value()
@@ -138,7 +144,7 @@ def hit():
        
 def stand():
     # replace with your code below
-    global score,outcome,hand,deck,dealer
+    global score,outcome,hand,deck,dealer,in_play
     
     if in_play == False:
         print outcome
@@ -147,13 +153,16 @@ def stand():
         dealer.add_card(deck.deal_card())
     if dealer.get_value() > 21:
         score += 1
-        outcome = "dealer busts!"
+        outcome = "Dealer busts! New deal?"
+        in_play = False
     elif dealer.get_value() >= hand.get_value():
         score -= 1
-        outcome = "dealer wins tie"
+        outcome = "Dealer wins tie, New deal?"
+        in_play = False
     else:
         score += 1
-        outcome = "you win"
+        outcome = "you win, New deal?"
+        in_play = False
     print dealer
     print hand
     print dealer.get_value()
@@ -166,10 +175,19 @@ def stand():
 # draw handler    
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
+    canvas.draw_text("Blackjack", [200,50], 40, 'Black')
+    canvas.draw_text(outcome, [200,125], 25, 'Black')
+    canvas.draw_text("Dealer:", [50,190], 20, 'Black')
+    canvas.draw_text("Your hand:", [50,390], 20, 'Black')
+    canvas.draw_text('score: ' + str(score), [400,350], 30, 'Black')
     
-    dealer.draw(canvas,[100,200])
+    dealer.draw(canvas,[172,200])
     hand.draw(canvas, [100,400])
+    
+    if in_play:
+        canvas.draw_image(card_back,CARD_CENTER, CARD_SIZE, [136,248],CARD_SIZE)
 
+    
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
 frame.set_canvas_background("Green")
