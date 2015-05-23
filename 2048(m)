@@ -18,6 +18,10 @@ def merge(line):
         if result1[i-1] == result1[i] and result1[i] > 0:
             result2.append(result1[i-1] + result1[i])
             result1[i-1],result1[i] = 0,0
+        elif i == 1:
+            result2.append(result1[i-1])
+        elif i < len(line)-1 and result1[i] == result1[i+1]:
+            continue
         elif result1[i] > 0:
             result2.append(result1[i])
     for i in range(len(result2),len(line)):
