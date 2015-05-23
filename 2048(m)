@@ -1,0 +1,32 @@
+"""
+Merge function for 2048 game.
+"""
+
+def merge(line):
+    """
+    Function that merges a single row or column in 2048.
+    """
+    # replace with your code
+    result1 = []
+    result2 = []
+    for i in line:
+        if i != 0:
+            result1.append(i)
+    for i in range(len(result1),len(line)):
+        result1.append(0)
+    for i in range(1,len(result1)):
+        if result1[i-1] == result1[i] and result1[i] > 0:
+            result2.append(result1[i-1] + result1[i])
+            result1[i-1],result1[i] = 0,0
+        elif result1[i] > 0:
+            result2.append(result1[i])
+    for i in range(len(result2),len(line)):
+        result2.append(0)
+    return result2
+
+
+print str(merge([2, 0, 2, 4])) + " should return [4, 4, 0, 0]"
+print str(merge([0, 0, 2, 2])) + " should return [4, 0, 0, 0]"
+print str(merge([2, 2, 0, 0])) + " should return [4, 0, 0, 0]"
+print str(merge([2, 2, 2, 2, 2])) + " should return [4, 4, 2, 0, 0]"
+print str(merge([8, 16, 16, 8])) + " should return [8, 32, 8, 0]"
