@@ -2,15 +2,15 @@
 Merge function for 2048 game.
 """
 
-def sAndZ(line):
+def sandz(line):
     """
     Fuction sort list and add zeros to the end
     """
     result = []
-    for i in line:
-        if i != 0:
-            result.append(i)
-    for i in range(len(result),len(line)):
+    for ite in line:
+        if ite != 0:
+            result.append(ite)
+    for ite in range(len(result),len(line)):
         result.append(0)
     return result
     
@@ -20,12 +20,12 @@ def merge(line):
     """
     # replace with your code
     result1 = []
-    result1 = sAndZ(line)
-    for i in range(1,len(result1)):
-        if result1[i] == result1[i-1]:
-            result1[i-1] += result1[i]
-            result1[i] = 0
-    return sAndZ(result1)
+    result1 = sandz(line)
+    for ite in range(1,len(result1)):
+        if result1[ite] == result1[ite-1]:
+            result1[ite-1] += result1[ite]
+            result1[ite] = 0
+    return sandz(result1)
     
 print str(merge([2, 0, 2, 4])) + " should return [4, 4, 0, 0]"
 print str(merge([0, 0, 2, 2])) + " should return [4, 0, 0, 0]"
