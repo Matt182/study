@@ -1,0 +1,169 @@
+"""
+Clone of 2048 game.
+"""
+
+import poc_2048_gui
+import random
+
+# Directions, DO NOT MODIFY
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+
+# Offsets for computing tile indices in each direction.
+# DO NOT MODIFY this dictionary.
+OFFSETS = {UP: (1, 0),
+           DOWN: (-1, 0),
+           LEFT: (0, 1),
+           RIGHT: (0, -1)}
+
+def sandz(line):
+    """
+    Fuction sort list and add zeros to the end
+    """
+    result = []
+    for ite in line:
+        if ite != 0:
+            result.append(ite)
+    for ite in range(len(result),len(line)):
+        result.append(0)
+    return result
+    
+def merge(line):
+    """
+    Function that merges a single row or column in 2048.
+    """
+    # replace with your code
+    result1 = []
+    result1 = sandz(line)
+    for ite in range(1,len(result1)):
+        if result1[ite] == result1[ite-1]:
+            result1[ite-1] += result1[ite]
+            result1[ite] = 0
+    return sandz(result1)
+
+
+class TwentyFortyEight:
+    """
+    Class to run the game logic.
+    """
+
+    def __init__(self, grid_height, grid_width):
+        self.grid_height = grid_height
+        self.grid_width = grid_width
+        self.reset()        
+        
+
+    def reset(self):
+        """
+        Reset the game so the grid is empty except for two
+        initial tiles.
+        """
+        self.GRID = [[0 for col in range(0,self.grid_width)]
+                        for row in range(0,self.grid_height)]
+        self.new_tile()
+        self.new_tile()
+        print self.GRID
+
+    def __str__(self):
+        """
+        Return a string representation of the grid for debugging.
+        """
+        # replace with your code
+        return ""
+
+    def get_grid_height(self):
+        """
+        Get the height of the board.
+        """
+        # replace with your code
+        return self.grid_height
+
+    def get_grid_width(self):
+        """
+        Get the width of the board.
+        """
+        # replace with your code
+        return self.grid_width
+
+    def move(self, direction):
+        """
+        Move all tiles in the given direction and add
+        a new tile if any tiles moved.
+        """
+        # replace with your code
+        if direction == 1:
+            for i in range(self.grid_width):
+                up = []
+                for j in range(self.grid_height-1,-1,-1):
+                    up.append(self.GRID[j][i])
+                up = merge(up[::-1])
+                for z in range(0,self.grid_height):
+                    self.GRID[z][i] = up[z]
+            self.new_tile()
+        elif direction == 2:
+            for i in range(self.grid_width):
+                down = []
+                for j in range(self.grid_height):
+                    down.append(self.GRID[j][i])
+                down = merge(down)
+                for z in range(0,self.grid_height):
+                    self.GRID[z][i] = down[z]
+            self.new_tile()
+                
+                
+
+    def new_tile(self):
+        """
+        Create a new tile in a randomly selected empty
+        square.  The tile should be 2 90% of the time and
+        4 10% of the time.
+        """
+        w = random.randint(0, self.grid_width-1)
+        h = random.randint(0, self.grid_height-1)
+        while self.GRID[h][w] != 0:
+            w = random.randint(0, self.grid_width-1)
+            h = random.randint(0, self.grid_height-1)
+        zcoef = random.randint(0,10)
+        if zcoef != 9:
+            self.GRID[h][w] = 2
+        else:
+            self.GRID[h][w] = 4
+
+    def set_tile(self, row, col, value):
+        """
+        Set the tile at position row, col to have the given value.
+        """
+        # replace with your code
+        self.GRID[row][col] = value
+
+    def get_tile(self, row, col):
+        """
+        Return the value of the tile at position row, col.
+        """
+        # replace with your code
+        return self.GRID[row][col]
+    
+    def traverse_grid(start_cell, direction, num_steps):
+        """
+        Function that iterates through the cells in a grid
+        in a linear direction
+
+        Both start_cell is a tuple(row, col) denoting the
+        starting cell
+
+        direction is a tuple that contains difference between
+        consecutive cells in the traversal
+        """
+    
+        for step in range(num_steps):
+            row = start_cell[0] + step * direction[0]
+            col = start_cell[1] + step * direction[1]
+            print "Processing cell", (row, col), 
+            print "with value", EXAMPLE_GRID[row][col]
+        
+    
+
+
+poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
