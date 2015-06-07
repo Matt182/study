@@ -103,15 +103,26 @@ class TwentyFortyEight:
                     self.GRID[z][i] = up[z]
             self.new_tile()
         elif direction == 2:
-            for i in range(self.grid_width):
+            for i in range(self.grid_height):
                 down = []
-                for j in range(self.grid_height):
+                for j in range(self.grid_width-1,-1,-1):
                     down.append(self.GRID[j][i])
-                down = merge(down)
+                down = merge(down)[::-1]
                 for z in range(0,self.grid_height):
                     self.GRID[z][i] = down[z]
             self.new_tile()
-                
+        elif direction == 3:
+            for i in range(self.grid_height):
+                left = self.GRID[i]
+                left = merge(left)[::-1]
+                self.GRID[i] = left[::-1]
+            self.new_tile()
+        elif direction == 4:
+            for i in range(self.grid_height):
+                right = self.GRID[i]
+                right = merge(right[::-1])
+                self.GRID[i] = right[::-1]
+            self.new_tile()
                 
 
     def new_tile(self):
