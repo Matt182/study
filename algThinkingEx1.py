@@ -18,17 +18,12 @@ def compute_in_degrees(digraph):
     return result
 
 def compute_in_degrees(digraph):
-    """
-    compute indegs foe each node
-    """
     result = {}
+    res = []
+    for val in digraph.values():
+        res += list(val)
     for node in digraph:
-        result[node] = 0
-        res = 0
-        for val in digraph.values():
-            if node in val:
-                res += 1
-        result[node] = res
+        result[node] = res.count(node)
     return result
         
 def in_degree_distribution(digraph):
